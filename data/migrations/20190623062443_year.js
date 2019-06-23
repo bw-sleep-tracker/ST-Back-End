@@ -1,8 +1,13 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable("years", tbl => {
-    tbl.increments();
+    tbl
+      .integer("year")
+      .notNullable()
+      .unique()
+      .unsigned();
 
     tbl.string("description", 255).notNullable();
+    tbl.primary(["year"]);
   });
 };
 
