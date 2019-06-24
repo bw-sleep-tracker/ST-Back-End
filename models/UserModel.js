@@ -9,21 +9,25 @@ module.exports = {
 };
 
 function find() {
+  console.log(`:: USER-MODEL :: FIND ::`);
   return db("users").select("id", "username", "password");
 }
 
 function findById(id) {
+  console.log(`:: USER-MODEL :: FINDBYID ::`);
   return db("users")
     .where({ id })
     .first();
 }
 
 async function add(user) {
+  console.log(`:: USER-MODEL :: ADD ::`);
   const [id] = await db("users").insert(user);
   return findById(id);
 }
 
 async function findBy(filter) {
+  console.log(`:: USER-MODEL :: FINDBY ::`);
   const result = await db("users")
     .where(filter)
     .first();
@@ -31,6 +35,7 @@ async function findBy(filter) {
 }
 
 async function update(id, user) {
+  console.log(`:: USER-MODEL :: UPDATE ::`);
   const result = await db("users")
     .where({ id })
     .update(user)
