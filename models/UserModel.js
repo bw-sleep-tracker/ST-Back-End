@@ -16,15 +16,16 @@ function find() {
 function findById(id) {
   console.log(`:: USER-MODEL :: FINDBYID ::`);
   return db("users")
-    .where({ id })
+    .where({ id: id })
     .first();
 }
 
 async function add(user) {
   console.log(`:: USER-MODEL :: ADD ::`);
-  await db("users").insert(user);
+  const [id] = await db("users").insert(user);
   console.log(`::ADD VALUE OF ID IS ::`);
-  return findBy({ username: user.username });
+  //return findBy({ username: user.username });
+  return findById(id);
 }
 
 async function findBy(filter) {
