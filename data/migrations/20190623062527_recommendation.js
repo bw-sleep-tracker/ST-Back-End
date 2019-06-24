@@ -30,7 +30,7 @@ exports.up = function(knex) {
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
 
-    //COLUMN_NAME:RECOMMENDATION
+    //COLUMN_NAME:RECOMMENDATION - COLUMN FOR RECOMMENDATION
     tbl.string("recommendation", 255).notNullable();
 
     tbl.primary(["user_id", "month", "year"]);
