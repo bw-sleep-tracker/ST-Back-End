@@ -12,6 +12,9 @@ exports.seed = function(knex, Promise) {
     },
     {
       description: "4 - super happy"
+    },
+    {
+      description: "5 - No Data Entered"
     }
   ]);
 };
