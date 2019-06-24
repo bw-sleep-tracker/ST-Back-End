@@ -5,34 +5,6 @@ const User = require("../models/UserModel");
 const jwtKey = require("../auth/secrets");
 
 router.post("/register", async (req, res) => {
-  // let user = req.body;
-
-  // //hash the password
-  // const hash = bcrypt.hashSync(user.password, 10);
-
-  // user.password = hash;
-  // if (
-  //   user.username &&
-  //   user.password &&
-  //   user.email &&
-  //   user.first_name &&
-  //   user.last_name
-  // ) {
-  //   User.add(user)
-  //     .then(user => {
-  //       res.status(201).json({ user: user });
-  //     })
-  //     .catch(error => {
-  //       res.status(500).json({
-  //         message: "Sorry, but something went wrong while registering."
-  //       });
-  //     });
-  // } else {
-  //   res.status(400).json({
-  //     message: "Please enter all the necessary credentials to register."
-  //   });
-  // }
-
   try {
     console.log("::: WITHIN USER REGISTRATION :::");
     let user = req.body;
@@ -46,6 +18,7 @@ router.post("/register", async (req, res) => {
       user.last_name
     ) {
       let addUser = await User.add(user);
+      console.log(`:: REGISTER :: ADD USER IS :: ${addUser}`);
       res.status(201).json(addUser);
     } else {
       res.status(400).json({

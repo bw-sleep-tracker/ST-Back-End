@@ -115,6 +115,7 @@ router.post("/", authenticate, async (req, res) => {
       res.status(400).json({ message: "Missing tracker information." });
     }
   } catch (error) {
+    console.log(`:: TRACKER ROUTER ADD :: ERROR :: ${error}`);
     res.status(500).json({
       message:
         "Sorry, but something went wrong while trying to add the tracking information."
@@ -164,12 +165,10 @@ router.delete(
         const deleteTracker = await Tracker.remove(userId, month, year, day);
         res.status(200).json({ message: `Tracker info successfully deleted.` });
       } else {
-        res
-          .status(400)
-          .json({
-            message:
-              "The userid, month, day or year request parameter is missing."
-          });
+        res.status(400).json({
+          message:
+            "The userid, month, day or year request parameter is missing."
+        });
       }
     } catch (error) {
       res.status(500).json({
