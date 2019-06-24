@@ -63,6 +63,22 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.get("/logout", (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res
+          .status(400)
+          .json({ message: `There was an error logging out the user.` });
+      } else {
+        res.status(200).json({ message: "Logout successful!" });
+      }
+    });
+  } else {
+    res.status(400).json({ message: "you were never here to begin with" });
+  }
+});
+
 function generateToken(user) {
   const payLoad = {
     subject: user.id,

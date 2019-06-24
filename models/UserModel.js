@@ -4,7 +4,8 @@ module.exports = {
   add,
   find,
   findById,
-  findBy
+  findBy,
+  update
 };
 
 function find() {
@@ -26,5 +27,13 @@ async function findBy(filter) {
   const result = await db("users")
     .where(filter)
     .first();
+  return result;
+}
+
+async function update(id, user) {
+  const result = await db("users")
+    .where({ id })
+    .update(user)
+    .then(count => (count > 0 ? this.findById(id) : null));
   return result;
 }
