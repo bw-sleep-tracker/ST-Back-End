@@ -35,4 +35,15 @@ router.put("/:id", authenticate, async (req, res) => {
   }
 });
 
+router.get("/", authenticate, async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(201).json(users);
+  } catch (error) {
+    res.status(500).json({
+      message: `Sorry, but something went wrong while retrieving the user information.`
+    });
+  }
+});
+
 module.exports = router;
