@@ -22,9 +22,9 @@ function findById(id) {
 
 async function add(user) {
   console.log(`:: USER-MODEL :: ADD ::`);
-  const id = await db("users").insert(user);
-  console.log(`::ADD VALUE OF ID IS :: ${JSON.stringify(id)}`);
-  return findById(id);
+  await db("users").insert(user);
+  console.log(`::ADD VALUE OF ID IS ::`);
+  return findBy({ username: user.username });
 }
 
 async function findBy(filter) {
