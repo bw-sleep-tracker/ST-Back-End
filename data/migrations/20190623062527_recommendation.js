@@ -25,7 +25,7 @@ exports.up = function(knex) {
       .integer("year")
       .notNullable()
       .unsigned()
-      .references("id")
+      .references("year")
       .inTable("years")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
