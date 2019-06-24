@@ -29,9 +29,9 @@ router.get(
         );
         res.status(200).json(monthlyTracker);
       } else {
-        res
-          .status(400)
-          .json({ message: `userId or month missing as request paramater.` });
+        res.status(400).json({
+          message: `The required user id or month is not available in the request parameters.`
+        });
       }
     } catch (error) {
       res.status(500).json({
@@ -55,9 +55,9 @@ router.get(
         );
         res.status(200).json(yearlyTracker);
       } else {
-        res
-          .status(400)
-          .json({ message: `userId or year missing as request paramater.` });
+        res.status(400).json({
+          message: `The required user id or year is not available in the request parameters.`
+        });
       }
     } catch (error) {
       res.status(500).json({
@@ -93,9 +93,9 @@ router.get(
           });
         }
       } else {
-        res
-          .status(400)
-          .json({ message: `userId or month missing as request paramater.` });
+        res.status(400).json({
+          message: `The required user id or limit or order is not available in the request parameters.`
+        });
       }
     } catch (error) {
       res.status(500).json({
@@ -117,7 +117,7 @@ router.post("/", authenticate, async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message:
-        "Sorry, but something went wrong while trying to retrieve the tracker details for the user."
+        "Sorry, but something went wrong while trying to add the tracking information."
     });
   }
 });
@@ -125,15 +125,12 @@ router.post("/", authenticate, async (req, res) => {
 router.put("/", authenticate, async (req, res) => {
   try {
     const trackerToUpdate = req.body;
-    console.log("-----WITHIN PUT ------");
     if (trackerToUpdate.user_id && trackerToUpdate.date) {
-      console.log("-----TRACKER TO UPDATE GOOD------");
       const tracker = await Tracker.findByUserIdAndDate(
         trackerToUpdate.user_id,
         trackerToUpdate.date
       );
       if (tracker) {
-        console.log("-----TRACKER GOOD ------");
         const trackerUpdated = await Tracker.update(trackerToUpdate);
         res.status(200).json(trackerUpdated);
       } else {
@@ -163,8 +160,17 @@ router.delete(
       const month = req.params.month;
       const year = req.params.year;
       const day = req.params.day;
-      const deleteTracker = await Tracker.remove(userId, month, year, day);
-      res.status(200).json({ message: `Tracker info successfully deleted.` });
+      if (userId && month && day && year) {
+        const deleteTracker = await Tracker.remove(userId, month, year, day);
+        res.status(200).json({ message: `Tracker info successfully deleted.` });
+      } else {
+        res
+          .status(400)
+          .json({
+            message:
+              "The userid, month, day or year request parameter is missing."
+          });
+      }
     } catch (error) {
       res.status(500).json({
         message: `Sorry, but something went wrong while trying to delete the tracker details for the user.`

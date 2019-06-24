@@ -67,15 +67,15 @@ router.get("/logout", (req, res) => {
   if (req.session) {
     req.session.destroy(err => {
       if (err) {
-        res.send(
-          "i mean did you think i would let you leave without paying tribute?"
-        );
+        res
+          .status(400)
+          .json({ message: `There was an error logging out the user.` });
       } else {
-        res.send("otsukare sama desu!");
+        res.status(200).json({ message: "Logout successful!" });
       }
     });
   } else {
-    res.send("you were never here to begin with");
+    res.status(400).json({ message: "you were never here to begin with" });
   }
 });
 
