@@ -63,6 +63,22 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.get("/logout", (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res.send(
+          "i mean did you think i would let you leave without paying tribute?"
+        );
+      } else {
+        res.send("otsukare sama desu!");
+      }
+    });
+  } else {
+    res.send("you were never here to begin with");
+  }
+});
+
 function generateToken(user) {
   const payLoad = {
     subject: user.id,

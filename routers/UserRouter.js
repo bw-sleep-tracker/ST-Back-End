@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/UserModel");
 const { authenticate } = require("../auth/authenticate");
+const bcrypt = require("bcryptjs");
 
 router.put("/:id", authenticate, async (req, res) => {
   try {
@@ -13,6 +14,10 @@ router.put("/:id", authenticate, async (req, res) => {
     ) {
       const userValid = await User.findById(userId);
       if (userValid) {
+        if (userToUpdate.password) {
+          const hash = bcrypt.hashSync(userToUpdate.password, 10);
+          userToUpdate.password = hash;
+        }
         const user = await User.update(userId, userToUpdate);
         res.status(201).json(user);
       } else {

@@ -5,7 +5,10 @@ module.exports = {
   add,
   findByUserIdAndDate,
   findByUserIdAndMonth,
-  findByUserIdAndYear
+  findByUserIdAndYear,
+  findByLimitOrder,
+  update,
+  remove
 };
 
 function findByUserId(id) {
@@ -32,17 +35,25 @@ function findByUserIdAndYear(id, year) {
   return db("tracker").where({ user_id: id, year: year });
 }
 
-// async function findBy(filter) {
-//   const result = await db("users")
-//     .where(filter)
-//     .first();
-//   return result;
-// }
+function findByLimitOrder(id, limit, order) {
+  return db("tracker")
+    .where({ user_id: id })
+    .limit(limit)
+    .orderBy("date", order);
+}
 
-// async function update(id, user) {
-//   const result = await db("users")
-//     .where({ id })
-//     .update(user)
-//     .then(count => (count > 0 ? this.findById(id) : null));
-//   return result;
-// }
+async function update(tracker) {
+  const result = await db("tracker")
+    .where({ user_id: tracker.user_id, date: tracker.date })
+    .update(tracker)
+    .then(count =>
+      count > 0 ? this.findByUserIdAndDate(tracker.user_id, tracker.date) : null
+    );
+  return result;
+}
+
+async function remove(id, month, year, day) {
+  return db("tracker")
+    .where({ user_id: id, month: month, year: year, day: day })
+    .del();
+}
