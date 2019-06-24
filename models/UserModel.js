@@ -23,6 +23,7 @@ function findById(id) {
 async function add(user) {
   console.log(`:: USER-MODEL :: ADD ::`);
   const [id] = await db("users").insert(user);
+  console.log(`::ADD VALUE OF ID IS :: ${id}`);
   return findById(id);
 }
 
