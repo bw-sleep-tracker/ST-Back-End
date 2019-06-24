@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const server = express();
 
 const authRouter = require("../routers/UserAuthRouter");
+const userRouter = require("../routers/UserRouter");
 
 server.use(express.json());
 server.use(helmet());
@@ -14,4 +15,5 @@ server.get("/", async (req, res) => {
 });
 
 server.use("/", authRouter);
+server.use("/user", userRouter);
 module.exports = server;

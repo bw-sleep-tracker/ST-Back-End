@@ -235,3 +235,111 @@ _example:_
 }
 
 ```
+
+## **UPDATE USER**
+
+### **Update a user by user id**
+
+_Method Url:_ `/user/:id`
+
+_HTTP method:_ **[PUT]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name | type    | required | description           |
+| ---- | ------- | -------- | --------------------- |
+| id   | Integer | Yes      | ID of a specific user |
+
+#### Body
+
+| name         | type   | required | description    |
+| ------------ | ------ | -------- | -------------- |
+| `username`   | String | Yes      | Must be unique |
+| `password`   | String | Yes      |                |
+| `email`      | String | Yes      |                |
+| `first_name` | String | Yes      |                |
+| `last_name`  | String | Yes      |                |
+
+_example:_
+
+```
+
+{
+	"username":"g3ram",
+	"password":"password",
+	"email":"g3ram@verizon.net",
+	"first_name":"Tester_firstName",
+	"last_name":"Tester_lastName"
+}
+
+```
+
+#### Response
+
+##### 200 (OK)
+
+> If a user with the specified ID in the URL parameters is updated successfully in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+_example:_
+
+```
+
+{
+    "id": 4,
+    "username": "g3ram",
+    "password": "password",
+    "email": "g3ram@verizon.net",
+    "first_name": "Tester_firstName",
+    "last_name": "Tester_lastName"
+}
+
+```
+
+#### 404 (Not Found)
+
+> If the user profile for the specified id can't be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message": "Sorry, but that profile doesn't exist"
+}
+
+```
+
+#### 400 (Bad Request)
+
+> If you are missing any of the required field(s) - userId or user object(user object should have atleast email or first name or last name), the endpoint will return an HTTP response with a status code `400` and a body as below relating to the missing field(s).
+
+_example:_
+
+```
+
+{
+  "message": "UserId or User object missing."
+}
+
+```
+
+#### 500 (Internal Server Error)
+
+> If there is a server or database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message": "Sorry, but something went wrong while updating the user information."
+}
+
+```

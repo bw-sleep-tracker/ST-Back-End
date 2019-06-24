@@ -30,9 +30,10 @@ async function findBy(filter) {
   return result;
 }
 
-function update(id, user) {
-  return db("users")
+async function update(id, user) {
+  const result = await db("users")
     .where({ id })
     .update(user)
     .then(count => (count > 0 ? this.findById(id) : null));
+  return result;
 }
