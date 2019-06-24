@@ -16,7 +16,7 @@ function findByUserId(id) {
 }
 
 async function add(tracker) {
-  const [id] = await db("tracker").insert(tracker);
+  await db("tracker").insert(tracker);
   return findByUserIdAndDate(tracker.user_id, tracker.date);
 }
 
