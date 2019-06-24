@@ -39,7 +39,7 @@ router.post("/register", async (req, res) => {
     const hash = bcrypt.hashSync(user.password, 10);
     user.password = hash;
     if (
-      user.name &&
+      user.username &&
       user.password &&
       user.email &&
       user.first_name &&
@@ -48,11 +48,9 @@ router.post("/register", async (req, res) => {
       let addUser = await User.add(user);
       res.status(201).json(addUser);
     } else {
-      res
-        .status(400)
-        .json({
-          message: "Please enter all the necessary credentials to register."
-        });
+      res.status(400).json({
+        message: "Please enter all the necessary credentials to register."
+      });
     }
   } catch (error) {
     console.log(`:: REGISTER :: ERROR IS :: ${error}`);
