@@ -5,6 +5,7 @@ const server = express();
 
 const authRouter = require("../routers/UserAuthRouter");
 const userRouter = require("../routers/UserRouter");
+const trackerRouter = require("../routers/TrackerRouter");
 
 server.use(express.json());
 server.use(helmet());
@@ -16,4 +17,5 @@ server.get("/", async (req, res) => {
 
 server.use("/", authRouter);
 server.use("/user", userRouter);
+server.use("/tracker", trackerRouter);
 module.exports = server;
