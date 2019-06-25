@@ -66,6 +66,7 @@ npm run server
   - [Add recommendation for user for month](#add-recommendation-for-user-for-month)
   - [Update recommendation for user for month](#update-recommendation-for-user-for-month)
   - [Delete recommendation for user for month](#delete-recommendation-for-user-for-month)
+- [Logout](#logout)
 
 # **SUMMARY TABLE OF API ENDPOINTS**
 
@@ -1650,3 +1651,15 @@ _example:_
 }
 
 ```
+
+# Logout
+
+## **Logout**
+
+### **Logs the user out of the application\***
+
+_Method Url:_ `/logout`
+
+_HTTP method:_ **[GET]**
+
+#### Destroys the user's current session.
