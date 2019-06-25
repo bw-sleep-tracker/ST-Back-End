@@ -24,8 +24,16 @@ router.get(
     try {
       const id = req.params.id;
       const date = req.params.date;
-      const userTracker = await Tracker.findByUserIdAndDate(id, date);
-      res.status(200).json(userTracker);
+      if (id && date) {
+        const userTracker = await Tracker.findByUserIdAndDate(id, date);
+        res.status(200).json(userTracker);
+      } else {
+        res
+          .status(400)
+          .json({
+            message: "The id or date is missing in request parameters."
+          });
+      }
     } catch (error) {
       res.status(500).json({
         message:
@@ -181,7 +189,7 @@ router.delete("/:id/date/:date", authenticate, async (req, res) => {
       res.status(200).json({ message: `Tracker info successfully deleted.` });
     } else {
       res.status(400).json({
-        message: "The userid, month, day or year request parameter is missing."
+        message: "The userid or date request parameter is missing."
       });
     }
   } catch (error) {
