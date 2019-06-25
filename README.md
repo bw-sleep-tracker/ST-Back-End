@@ -8,6 +8,8 @@ Back-end build week project for Sleep Tracker
 
 # **Deployed Backend**
 
+https://be-bw-sleep-tracker.herokuapp.com/
+
 # **Technologies**
 
 #### Production
@@ -57,6 +59,13 @@ npm run server
   - [Add tracker](#add-tracker)
   - [Update tracker](#udpate-tracker)
   - [Delete tracker](#delete-tracker)
+  - [Get tracker with userid and date](#get-tracker-with-userid-and-date)
+- [Recommendation Routes](#recommendation-routes)
+  - [Get all recommendations for userid](#get-all-recommendations-for-userid)
+  - [Get recommendation for user for month](#get-recommendation-for-user-for-month)
+  - [Add recommendation for user for month](#add-recommendation-for-user-for-month)
+  - [Update recommendation for user for month](#update-recommendation-for-user-for-month)
+  - [Delete recommendation for user for month](#delete-recommendation-for-user-for-month)
 
 # **SUMMARY TABLE OF API ENDPOINTS**
 
@@ -1062,7 +1071,7 @@ _example:_
 
 ### **Deleting a tracking information for the user**
 
-_Method Url:_ `/tracker/:id/month/:month/year/:year/day/:day`
+_Method Url:_ `/tracker/:id/date/:date`
 
 _HTTP method:_ **[DELETE]**
 
@@ -1105,14 +1114,14 @@ _example:_
 
 #### 400 (Bad Request)
 
-> If you are missing the tracking information in the request body, the endpoint will return an HTTP response with a status code `400` and a body as below relating to the missing field(s).
+> If you are missing the tracking information in the request parameter, the endpoint will return an HTTP response with a status code `400` and a body as below relating to the missing field(s).
 
 _example:_
 
 ```
 
 {
-  "message": "The userid, month, day or year request parameter is missing."
+  "message": "The userid or date request parameter is missing."
 }
 
 ```
@@ -1127,6 +1136,517 @@ _example:_
 
 {
   "message": "Sorry, but something went wrong while trying to delete the tracker details for the user."
+}
+
+```
+
+## **GET TRACKER WITH USERID AND DATE**
+
+### **Get all the tracking information for a user for a particular date**
+
+_Method Url:_ `/tracker/:id/date/:date`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name | type    | required | description           |
+| ---- | ------- | -------- | --------------------- |
+| id   | Integer | Yes      | ID of a specific user |
+| date | String  | Yes      |                       |
+
+#### Body
+
+No information is passed in the body
+
+#### Response
+
+##### 200 (OK)
+
+> If a user with the specified ID and the date in the URL parameters is available in the database, all the tracking information for that user for that date will be retrieved. The endpoint will return an HTTP response with a status code `200` and a body as below.
+
+_example:_
+
+```
+
+
+{
+"user_id": 4,
+"date": "06/21/2019",
+"start_sleep_time": "22:00",
+"end_sleep_time": "06:00",
+"day_emotion": 4,
+"sleep_emotion": 3,
+"month": 6,
+"year": 2019,
+"day": 21
+}
+
+```
+
+#### 404 (Not Found)
+
+> If the user profile for the specified id can't be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message": "Sorry, unable to retrieve information for this user id."
+}
+
+```
+
+#### 400 (Bad Request)
+
+> If you are missing any of the required field(s) - userId , the endpoint will return an HTTP response with a status code `400` and a body as below relating to the missing field(s).
+
+_example:_
+
+```
+
+{
+  "message": "The id or date is missing in request parameters."
+}
+
+```
+
+#### 500 (Internal Server Error)
+
+> If there is a server or database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message": "Sorry, but something went wrong while trying to retrieve the tracker details for the user."
+}
+
+```
+
+# Recommendation Routes
+
+## **GET ALL RECOMMENDATIONS FOR A USERID**
+
+### **Get all the tracking information for a user**
+
+_Method Url:_ `/recommendation/:id`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name | type    | required | description           |
+| ---- | ------- | -------- | --------------------- |
+| id   | Integer | Yes      | ID of a specific user |
+
+#### Body
+
+No information is passed in the body
+
+#### Response
+
+##### 200 (OK)
+
+> If a user with the specified ID in the URL parameters is available in the database, all the recommendation information for that user will be retrieved. The endpoint will return an HTTP response with a status code `200` and a body as below.
+
+_example:_
+
+```
+
+
+[
+    {
+        "user_id": 4,
+        "month": 3,
+        "year": 2019,
+        "recommendation": "No data available for this time period."
+    },
+    {
+        "user_id": 4,
+        "month": 5,
+        "year": 2019,
+        "recommendation": "No data available for this time period"
+    },
+    {
+        "user_id": 4,
+        "month": 6,
+        "year": 2019,
+        "recommendation": "Very well slept!"
+    }
+]
+
+```
+
+#### 404 (Not Found)
+
+> If the user profile for the specified id can't be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message": "Sorry, unable to retrieve information for this user id."
+}
+
+```
+
+#### 400 (Bad Request)
+
+> If you are missing any of the required field(s) - userId , the endpoint will return an HTTP response with a status code `400` and a body as below relating to the missing field(s).
+
+_example:_
+
+```
+
+{
+  "message": "The id is missing in request parameters."
+}
+
+```
+
+#### 500 (Internal Server Error)
+
+> If there is a server or database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message": "Sorry, but something went wrong while trying to retrieve the recommendation details for the user."
+}
+
+```
+
+## **GET RECOMMENDATION FOR USER FOR MONTH**
+
+### **Get all the recommendation information for a user for a particular month**
+
+_Method Url:_ `/recommendation/:id/month/:month/year/:year`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name  | type    | required | description           |
+| ----- | ------- | -------- | --------------------- |
+| id    | Integer | Yes      | ID of a specific user |
+| month | Integer | Yes      |                       |
+| year  | Integer | Yes      |                       |
+
+#### Body
+
+No information is passed in the body
+
+#### Response
+
+##### 200 (OK)
+
+> If a user with the specified ID and the date in the URL parameters is available in the database, all the tracking information for that user for that date will be retrieved. The endpoint will return an HTTP response with a status code `200` and a body as below.
+
+_example:_
+
+```
+
+{
+    "user_id": 4,
+    "month": 6,
+    "year": 2019,
+    "recommendation": "Very well slept!"
+}
+
+```
+
+#### 404 (Not Found)
+
+> If the user profile for the specified id can't be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message": "Sorry, unable to retrieve information for this user id."
+}
+
+```
+
+#### 400 (Bad Request)
+
+> If you are missing any of the required field(s) - userId , the endpoint will return an HTTP response with a status code `400` and a body as below relating to the missing field(s).
+
+_example:_
+
+```
+
+{
+  "message": "The id or date is missing in request parameters."
+}
+
+```
+
+#### 500 (Internal Server Error)
+
+> If there is a server or database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message": "Sorry, but something went wrong while trying to retrieve the recommendation details for the user."
+}
+
+```
+
+## **ADD RECOMMENDATION**
+
+### **Add a recommendation information for the user**
+
+_Method Url:_ `/recommendation/`
+
+_HTTP method:_ **[POST]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Body
+
+| name             | type    | required | description    |
+| ---------------- | ------- | -------- | -------------- |
+| `user_id`        | String  | Yes      | Must be unique |
+| `month`          | Integer | Yes      |                |
+| `year`           | Integer | Yes      |                |
+| `recommendation` | String  | Yes      |                |
+
+_example:_
+
+```
+
+{
+	"user_id":4,
+	"month":4,
+	"year":2019,
+	"recommendation":"No data available for this time period"
+}
+
+```
+
+#### Response
+
+##### 200 (OK)
+
+> If a tracking info for the user is added successfully in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+_example:_
+
+```
+
+{
+	"user_id":4,
+	"month":4,
+	"year":2019,
+	"recommendation":"No data available for this time period"
+}
+
+```
+
+#### 400 (Bad Request)
+
+> If you are missing the tracking information in the request body, the endpoint will return an HTTP response with a status code `400` and a body as below relating to the missing field(s).
+
+_example:_
+
+```
+
+{
+  "message": "Missing recommendation information in request body."
+}
+
+```
+
+#### 500 (Internal Server Error)
+
+> If there is a server or database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message": "Sorry, but something went wrong while trying to add the recommendation information."
+}
+
+```
+
+## **UPDATE RECOMMENDATION**
+
+### **Update a tracking information for the user**
+
+_Method Url:_ `/recommendation/`
+
+_HTTP method:_ **[PUT]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Body
+
+| name             | type    | required | description    |
+| ---------------- | ------- | -------- | -------------- |
+| `user_id`        | String  | Yes      | Must be unique |
+| `month`          | Integer | Yes      |                |
+| `year`           | Integer | Yes      |                |
+| `recommendation` | String  | Yes      |                |
+
+_example:_
+
+```
+
+{
+	"user_id":4,
+	"month":4,
+	"year":2019,
+	"recommendation":"No data available for this time period.!!!"
+}
+
+```
+
+#### Response
+
+##### 200 (OK)
+
+> If a tracking info for the user is udpated successfully in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+_example:_
+
+```
+
+{
+    "user_id": 4,
+    "month": 4,
+    "year": 2019,
+    "recommendation": "No data available for this time period.!!!"
+}
+
+```
+
+#### 400 (Bad Request)
+
+> If you are missing the tracking information in the request body, the endpoint will return an HTTP response with a status code `400` and a body as below relating to the missing field(s).
+
+_example:_
+
+```
+
+{
+  "message": "Recommendation to be updated is missing in request parameter."
+}
+
+```
+
+#### 500 (Internal Server Error)
+
+> If there is a server or database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message": "Sorry, but something went wrong while trying to update the tracker details for the user."
+}
+
+```
+
+## **DELETE RECOMMENDATION**
+
+### **Deleting a recommendation information for the user**
+
+_Method Url:_ `/recommendation/:id/month/:month/year/:year`
+
+_HTTP method:_ **[DELETE]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Response
+
+##### 200 (OK)
+
+> If a tracking info for the user is deleted successfully in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message":"The Recommendation was deleted successfully."
+}
+
+```
+
+#### 400 (Bad Request)
+
+> If you are missing the tracking information in the request parameter, the endpoint will return an HTTP response with a status code `400` and a body as below relating to the missing field(s).
+
+_example:_
+
+```
+
+{
+  "message": "The request parameters - userId, year and month are missing."
+}
+
+```
+
+#### 500 (Internal Server Error)
+
+> If there is a server or database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+_example:_
+
+```
+
+{
+  "message": "Sorry, but something went wrong while trying to delete the recommendation details for the user."
 }
 
 ```

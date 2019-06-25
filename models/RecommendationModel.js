@@ -31,7 +31,7 @@ async function add(recommendation) {
 }
 
 async function findBy(filter) {
-  console.log(`:: RECOMMENDATION-MODEL :: FINDBY ::`);
+  console.log(`:: RECOMMENDATION-MODEL :: FINDBY :: ${JSON.stringify(filter)}`);
   const result = await db("recommendation")
     .where(filter)
     .first();
