@@ -12,7 +12,10 @@ module.exports = {
 };
 
 function findByUserId(id) {
-  return db("tracker").where({ user_id: id });
+  return db("tracker")
+    .whereIn("user_id", [id])
+    .whereIn("day_emotion", [1, 2, 3, 4])
+    .whereIn("sleep_emotion", [1, 2, 3, 4]);
 }
 
 async function add(tracker) {
