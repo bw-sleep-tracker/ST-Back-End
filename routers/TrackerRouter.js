@@ -17,6 +17,25 @@ router.get("/:id", authenticate, validateUserId, async (req, res) => {
 });
 
 router.get(
+  "/:id/date/:date",
+  authenticate,
+  validateUserId,
+  async (req, res) => {
+    try {
+      const id = req.params.id;
+      const date = req.params.date;
+      const userTracker = await Tracker.findByUserIdAndDate(id, date);
+      res.status(200).json(userTracker);
+    } catch (error) {
+      res.status(500).json({
+        message:
+          "Sorry, but something went wrong while trying to retrieve the tracker details for the user."
+      });
+    }
+  }
+);
+
+router.get(
   "/:id/month/:month",
   authenticate,
   validateUserId,
@@ -152,31 +171,25 @@ router.put("/", authenticate, async (req, res) => {
   }
 });
 
-router.delete(
-  "/:id/month/:month/year/:year/day/:day",
-  authenticate,
-  async (req, res) => {
-    try {
-      const userId = req.params.id;
-      const month = req.params.month;
-      const year = req.params.year;
-      const day = req.params.day;
-      if (userId && month && day && year) {
-        const deleteTracker = await Tracker.remove(userId, month, year, day);
-        res.status(200).json({ message: `Tracker info successfully deleted.` });
-      } else {
-        res.status(400).json({
-          message:
-            "The userid, month, day or year request parameter is missing."
-        });
-      }
-    } catch (error) {
-      res.status(500).json({
-        message: `Sorry, but something went wrong while trying to delete the tracker details for the user.`
+// user %2F for backslash in dates
+router.delete("/:id/date/:date", authenticate, async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const date = req.params.date;
+    if (userId && date) {
+      const deleteTracker = await Tracker.remove(userId, date);
+      res.status(200).json({ message: `Tracker info successfully deleted.` });
+    } else {
+      res.status(400).json({
+        message: "The userid, month, day or year request parameter is missing."
       });
     }
+  } catch (error) {
+    res.status(500).json({
+      message: `Sorry, but something went wrong while trying to delete the tracker details for the user.`
+    });
   }
-);
+});
 
 async function validateUserId(req, res, next) {
   if (req.params.id) {
