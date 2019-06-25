@@ -45,7 +45,8 @@ router.post("/login", async (req, res) => {
         console.log(`:: LOGIN :: TOKEN GENERATED ::}`);
         res.status(200).json({
           message: `${user.username} is successfully logged in`,
-          token
+          token,
+          user: user
         });
       } else {
         res
