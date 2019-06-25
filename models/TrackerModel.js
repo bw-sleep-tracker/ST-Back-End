@@ -8,12 +8,13 @@ module.exports = {
   findByUserIdAndYear,
   findByLimitOrder,
   update,
-  remove
+  remove,
+  findByUserIdDMY
 };
 
 function findByUserId(id) {
   return db("tracker")
-    .whereIn("user_id", [id])
+    .where({ user_id: id })
     .whereIn("day_emotion", [1, 2, 3, 4])
     .whereIn("sleep_emotion", [1, 2, 3, 4]);
 }
@@ -30,17 +31,34 @@ async function findByUserIdAndDate(id, date) {
   return result;
 }
 
+async function findByUserIdDMY(id, day, month, year) {
+  const result = await db("tracker")
+    .where({ user_id: id, day: day, month: month, year: year })
+    .whereIn("day_emotion", [1, 2, 3, 4])
+    .whereIn("sleep_emotion", [1, 2, 3, 4])
+    .first();
+  return result;
+}
+
 function findByUserIdAndMonth(id, month) {
-  return db("tracker").where({ user_id: id, month: month });
+  return db("tracker")
+    .where({ user_id: id, month: month })
+    .whereIn("day_emotion", [1, 2, 3, 4])
+    .whereIn("sleep_emotion", [1, 2, 3, 4]);
 }
 
 function findByUserIdAndYear(id, year) {
-  return db("tracker").where({ user_id: id, year: year });
+  return db("tracker")
+    .where({ user_id: id, year: year })
+    .whereIn("day_emotion", [1, 2, 3, 4])
+    .whereIn("sleep_emotion", [1, 2, 3, 4]);
 }
 
 function findByLimitOrder(id, limit, order) {
   return db("tracker")
     .where({ user_id: id })
+    .whereIn("day_emotion", [1, 2, 3, 4])
+    .whereIn("sleep_emotion", [1, 2, 3, 4])
     .limit(limit)
     .orderBy("date", order);
 }
@@ -55,8 +73,8 @@ async function update(tracker) {
   return result;
 }
 
-async function remove(id, month, year, day) {
+async function remove(id, date) {
   return db("tracker")
-    .where({ user_id: id, month: month, year: year, day: day })
+    .where({ user_id: id, date: date })
     .del();
 }
