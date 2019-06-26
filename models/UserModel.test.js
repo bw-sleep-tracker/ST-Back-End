@@ -11,7 +11,7 @@ describe("TS2: TESTING USERMODEL.JS", () => {
   describe("TS2.1:: TEST ADD USER", () => {
     it("TC2.1.1: Test to add a user - check length", async () => {
       const user = {
-        username: "g3ram",
+        username: "tester1",
         password: bcrypt.hashSync("password", 10),
         email: "g3ram@verizon.net",
         first_name: "Tester_firstName",
@@ -24,7 +24,7 @@ describe("TS2: TESTING USERMODEL.JS", () => {
 
     it("TC2.1.2: Test to add a user - check username", async () => {
       const user = {
-        username: "g3ram",
+        username: "tester2",
         password: bcrypt.hashSync("password", 10),
         email: "g3ram@verizon.net",
         first_name: "Tester_firstName",
@@ -32,14 +32,14 @@ describe("TS2: TESTING USERMODEL.JS", () => {
       };
       await UserModel.add(user);
       const users = await db("users").first();
-      expect(users.username).toBe("g3ram");
+      expect(users.username).toBe("tester2");
     });
   });
 
   describe("TS2.2:: GET ALL USERS (find)", () => {
     it("TC2.2.1: Test to get all users", async () => {
       let user = {
-        username: "g3ram",
+        username: "tester3",
         password: bcrypt.hashSync("password", 10),
         email: "g3ram@verizon.net",
         first_name: "Tester_firstName",
@@ -55,7 +55,7 @@ describe("TS2: TESTING USERMODEL.JS", () => {
   describe("TS2.3:: GET USER BY ID (findById)", () => {
     it("TC2.3.1: Test to get a user by id", async () => {
       let user = {
-        username: "g3ram",
+        username: "tester4",
         password: bcrypt.hashSync("password", 10),
         email: "g3ram@verizon.net",
         first_name: "Tester_firstName",
@@ -65,14 +65,14 @@ describe("TS2: TESTING USERMODEL.JS", () => {
 
       const users = await UserModel.findById(1);
       expect(users.id).toBe(1);
-      expect(users.username).toBe("g3ram");
+      expect(users.username).toBe("tester4");
     });
   });
 
   describe("TS2.4:: GET USER BY ANY FILTER (findBy)", () => {
     it("TC2.4.1: Test to get a user by any filter value", async () => {
       let user = {
-        username: "g3ram",
+        username: "tester5",
         password: bcrypt.hashSync("password", 10),
         email: "g3ram@verizon.net",
         first_name: "Tester_firstName",
@@ -80,16 +80,16 @@ describe("TS2: TESTING USERMODEL.JS", () => {
       };
       await UserModel.add(user);
 
-      const users = await UserModel.findBy({ username: "g3ram" });
+      const users = await UserModel.findBy({ username: "tester5" });
       expect(users.id).toBe(1);
-      expect(users.username).toBe("g3ram");
+      expect(users.username).toBe("tester5");
     });
   });
 
   describe("TS2.5:: TEST UPDATE USER", () => {
     it("TC2.5.1: Test to update an user", async () => {
       let user = {
-        username: "g3ram",
+        username: "tester6",
         password: bcrypt.hashSync("password", 10),
         email: "g3ram@verizon.net",
         first_name: "Tester_firstName",
@@ -98,12 +98,12 @@ describe("TS2: TESTING USERMODEL.JS", () => {
       await UserModel.add(user);
 
       user = {
-        username: "g3ram",
+        username: "tester6",
         first_name: "Gayathri",
         last_name: "Ram"
       };
       await UserModel.update(1, user);
-      const users = await UserModel.findBy({ username: "g3ram" });
+      const users = await UserModel.findBy({ username: "tester6" });
       expect(users.id).toBe(1);
       expect(users.first_name).toBe("Gayathri");
       expect(users.last_name).toBe("Ram");
