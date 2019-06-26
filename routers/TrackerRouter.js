@@ -28,11 +28,9 @@ router.get(
         const userTracker = await Tracker.findByUserIdAndDate(id, date);
         res.status(200).json(userTracker);
       } else {
-        res
-          .status(400)
-          .json({
-            message: "The id or date is missing in request parameters."
-          });
+        res.status(400).json({
+          message: "The id or date is missing in request parameters."
+        });
       }
     } catch (error) {
       res.status(500).json({
@@ -160,7 +158,11 @@ router.put("/", authenticate, async (req, res) => {
       );
       if (tracker) {
         const trackerUpdated = await Tracker.update(trackerToUpdate);
-        res.status(200).json(trackerUpdated);
+        const trackers = await Tracker.findByUserIdAndYear(
+          trackerUpdated.user_id,
+          trackerUpdated.year
+        );
+        res.status(200).json(trackers);
       } else {
         res.status(404).json({
           message:
@@ -180,13 +182,15 @@ router.put("/", authenticate, async (req, res) => {
 });
 
 // user %2F for backslash in dates
-router.delete("/:id/date/:date", authenticate, async (req, res) => {
+router.delete("/:id/date/:date/year/:year", authenticate, async (req, res) => {
   try {
     const userId = req.params.id;
     const date = req.params.date;
-    if (userId && date) {
+    const year = req.params.year;
+    if (userId && date && year) {
       const deleteTracker = await Tracker.remove(userId, date);
-      res.status(200).json({ message: `Tracker info successfully deleted.` });
+      const trackers = await Tracker.findByUserIdAndYear(userId, year);
+      res.status(200).json(trackers);
     } else {
       res.status(400).json({
         message: "The userid or date request parameter is missing."
