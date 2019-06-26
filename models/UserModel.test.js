@@ -47,16 +47,8 @@ describe("TS2: TESTING USERMODEL.JS", () => {
       };
       await UserModel.add(user);
 
-      user = {
-        username: "joshc",
-        password: bcrypt.hashSync("password", 10),
-        email: "josh@verizon.net",
-        first_name: "Tester_firstName",
-        last_name: "Tester_lastName"
-      };
-      await UserModel.add(user);
       const users = await db("users");
-      expect(users).toHaveLength(2);
+      expect(users).toHaveLength(1);
     });
   });
 
@@ -71,14 +63,6 @@ describe("TS2: TESTING USERMODEL.JS", () => {
       };
       await UserModel.add(user);
 
-      user = {
-        username: "joshc",
-        password: bcrypt.hashSync("password", 10),
-        email: "josh@verizon.net",
-        first_name: "Tester_firstName",
-        last_name: "Tester_lastName"
-      };
-      await UserModel.add(user);
       const users = await UserModel.findById(1);
       expect(users.id).toBe(1);
       expect(users.username).toBe("g3ram");
@@ -96,14 +80,6 @@ describe("TS2: TESTING USERMODEL.JS", () => {
       };
       await UserModel.add(user);
 
-      user = {
-        username: "joshc",
-        password: bcrypt.hashSync("password", 10),
-        email: "josh@verizon.net",
-        first_name: "Tester_firstName",
-        last_name: "Tester_lastName"
-      };
-      await UserModel.add(user);
       const users = await UserModel.findBy({ username: "g3ram" });
       expect(users.id).toBe(1);
       expect(users.username).toBe("g3ram");
