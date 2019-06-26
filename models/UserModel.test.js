@@ -84,4 +84,53 @@ describe("TS2: TESTING USERMODEL.JS", () => {
       expect(users.username).toBe("g3ram");
     });
   });
+
+  describe("TS2.4:: GET USER BY ANY FILTER (findBy)", () => {
+    it("TC2.4.1: Test to get a user by any filter value", async () => {
+      let user = {
+        username: "g3ram",
+        password: bcrypt.hashSync("password", 10),
+        email: "g3ram@verizon.net",
+        first_name: "Tester_firstName",
+        last_name: "Tester_lastName"
+      };
+      await UserModel.add(user);
+
+      user = {
+        username: "joshc",
+        password: bcrypt.hashSync("password", 10),
+        email: "josh@verizon.net",
+        first_name: "Tester_firstName",
+        last_name: "Tester_lastName"
+      };
+      await UserModel.add(user);
+      const users = await UserModel.findBy({ username: "g3ram" });
+      expect(users.id).toBe(1);
+      expect(users.username).toBe("g3ram");
+    });
+  });
+
+  describe("TS2.5:: TEST UPDATE USER", () => {
+    it("TC2.5.1: Test to update an user", async () => {
+      let user = {
+        username: "g3ram",
+        password: bcrypt.hashSync("password", 10),
+        email: "g3ram@verizon.net",
+        first_name: "Tester_firstName",
+        last_name: "Tester_lastName"
+      };
+      await UserModel.add(user);
+
+      user = {
+        username: "g3ram",
+        first_name: "Gayathri",
+        last_name: "Ram"
+      };
+      await UserModel.update(1, user);
+      const users = await UserModel.findBy({ username: "g3ram" });
+      expect(users.id).toBe(1);
+      expect(users.first_name).toBe("Gayathri");
+      expect(users.last_name).toBe("Ram");
+    });
+  });
 });
