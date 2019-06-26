@@ -2,7 +2,7 @@ const request = require("supertest");
 
 const server = require("./server.js");
 
-describe("TS1: Testing Server.js", () => {
+describe("TS1: TESTING SERVER.JS", () => {
   it("TC1.1: Testing the environment", () => {
     expect(process.env.DB_ENV).toBe("testing");
   });
