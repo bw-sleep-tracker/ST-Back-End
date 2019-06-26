@@ -13,7 +13,7 @@ server.use(helmet());
 server.use(cors());
 
 server.get("/", async (req, res) => {
-  res.sendStatus(200).json({ message: "The sleep tracker api is up!" });
+  res.status(200).json({ message: "The sleep tracker api is up!" });
 });
 
 server.use("/", authRouter);
