@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs");
 
 router.put("/:id", authenticate, async (req, res) => {
   try {
+    console.log("-----------USER ROUTER CALLED ---------");
     const userId = req.params.id;
     const userToUpdate = req.body;
     if (
@@ -19,6 +20,7 @@ router.put("/:id", authenticate, async (req, res) => {
           userToUpdate.password = hash;
         }
         const user = await User.update(userId, userToUpdate);
+        console.log("--------------" + JSON.stringify(user));
         res.status(201).json(user);
       } else {
         res
