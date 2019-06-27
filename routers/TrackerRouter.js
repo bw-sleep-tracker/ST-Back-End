@@ -6,7 +6,7 @@ const Tracker = require("../models/TrackerModel");
 
 router.get("/:id", authenticate, validateUserId, async (req, res) => {
   try {
-    const userTracker = await Tracker.findByUserId(req.user.id);
+    const userTracker = await Tracker.findAllByUserIdAndYear(req.user.id, 2019);
     res.status(200).json(userTracker);
   } catch (error) {
     res.status(500).json({
