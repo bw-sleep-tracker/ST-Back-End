@@ -9,7 +9,8 @@ module.exports = {
   findByLimitOrder,
   update,
   remove,
-  findByUserIdDMY
+  findByUserIdDMY,
+  findAllByUserIdAndYear
 };
 
 function findByUserId(id) {
@@ -62,6 +63,17 @@ function findByUserIdAndYear(id, year) {
     .where({ user_id: id, year: year })
     .whereIn("day_emotion", [1, 2, 3, 4])
     .whereIn("sleep_emotion", [1, 2, 3, 4])
+    .orderBy([
+      { column: "year", order: "desc" },
+      { column: "month", order: "desc" },
+      { column: "day", order: "desc" }
+    ]);
+}
+
+// Newly added method - as request by FE
+function findAllByUserIdAndYear(id, year) {
+  return db("tracker")
+    .where({ user_id: id, year: year })
     .orderBy([
       { column: "year", order: "desc" },
       { column: "month", order: "desc" },
