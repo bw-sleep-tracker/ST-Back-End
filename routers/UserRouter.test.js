@@ -1,5 +1,4 @@
 const req = require("supertest");
-const GamesRouter = require("./UserRouter");
 const server = require("../api/server");
 const db = require("../data/dbconfig");
 const bcrypt = require("bcryptjs");
