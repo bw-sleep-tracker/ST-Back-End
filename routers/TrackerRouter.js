@@ -93,6 +93,37 @@ router.get(
   }
 );
 
+//New END POINT WITH ALL USER TRACKER INCLUDING STATUS WITH 5
+
+router.get(
+  "/:id/yearall/:year",
+  authenticate,
+  validateUserId,
+  async (req, res) => {
+    console.log("-------------------");
+    try {
+      if (req.user.id && req.params.year) {
+        const yearlyTracker = await Tracker.findAllByUserIdAndYear(
+          req.user.id,
+          req.params.year
+        );
+        res.status(200).json(yearlyTracker);
+      } else {
+        res.status(400).json({
+          message: `The required user id or year is not available in the request parameters.`
+        });
+      }
+    } catch (error) {
+      console.log("-------------" + error);
+      res.status(500).json({
+        message:
+          "Sorry, but something went wrong while trying to retrieve the tracker details for the user."
+      });
+    }
+  }
+);
+
+// -- END OF NEW ENDPOINT
 router.get(
   "/:id/limit/:limit/order/:order",
   authenticate,
@@ -162,7 +193,7 @@ router.put("/", authenticate, async (req, res) => {
       );
       if (tracker) {
         const trackerUpdated = await Tracker.update(trackerToUpdate);
-        const trackers = await Tracker.findByUserIdAndYear(
+        const trackers = await Tracker.findAllByUserIdAndYear(
           trackerUpdated.user_id,
           trackerUpdated.year
         );
@@ -193,7 +224,7 @@ router.delete("/:id/date/:date/year/:year", authenticate, async (req, res) => {
     const year = req.params.year;
     if (userId && date && year) {
       const deleteTracker = await Tracker.remove(userId, date);
-      const trackers = await Tracker.findByUserIdAndYear(userId, year);
+      const trackers = await Tracker.findAllByUserIdAndYear(userId, year);
       res.status(200).json(trackers);
     } else {
       res.status(400).json({
