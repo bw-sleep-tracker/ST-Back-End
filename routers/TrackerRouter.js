@@ -135,7 +135,11 @@ router.post("/", authenticate, async (req, res) => {
   try {
     if (req.body) {
       const userTracker = await Tracker.add(req.body);
-      res.status(200).json(userTracker);
+      const trackers = await Tracker.findByUserIdAndYear(
+        userTracker.user_id,
+        userTracker.year
+      );
+      res.status(200).json(trackers);
     } else {
       res.status(400).json({ message: "Missing tracker information." });
     }
