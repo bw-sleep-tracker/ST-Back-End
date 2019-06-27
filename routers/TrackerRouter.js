@@ -135,7 +135,7 @@ router.post("/", authenticate, async (req, res) => {
   try {
     if (req.body) {
       const userTracker = await Tracker.add(req.body);
-      const trackers = await Tracker.findByUserIdAndYear(
+      const trackers = await Tracker.findAllByUserIdAndYear(
         userTracker.user_id,
         userTracker.year
       );
