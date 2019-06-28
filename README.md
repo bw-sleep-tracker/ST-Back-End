@@ -8,7 +8,8 @@ Back-end build week project for Sleep Tracker
 
 # **Deployed Backend**
 
-https://be-bw-sleep-tracker.herokuapp.com/
+- https://be-bw-sleep-tracker.herokuapp.com/ (Testing)
+- https://bw-sleep-tracker-app.herokuapp.com/ (Production)
 
 # **Technologies**
 
@@ -70,10 +71,26 @@ npm run server
 
 # **SUMMARY TABLE OF API ENDPOINTS**
 
-| Table | Method | Endpoint  | Description                                                                                                                                                                                    |
-| ----- | ------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| users | POST   | /register | Creates a new `user` profile using the information sent inside the `body` of the request and returns a message along with the new `user` in the `body` of the response.                        |
-| users | POST   | /login    | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Web Token token in the `body` of the response. |
+| Table          | Method | Endpoint                                    | Description                                                                                                                                                                                                     |
+| -------------- | ------ | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| users          | POST   | /register                                   | Creates a new `user` profile using the information sent inside the `body` of the request and returns a message along with the new `user` in the `body` of the response.                                         |
+| users          | POST   | /login                                      | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Web Token token in the `body` of the response.                  |
+| users          | PUT    | /user/:id                                   | The user will be able to update his settings after successful login. JSON web token should be available in the headers (Authorization)                                                                          |
+| tracker        | GET    | /tracker/:id                                | Gets all the tracker information for the user id passed in the request parameters. The response will contain all the tracking information for the user sorted descending. The latest information will be first. |
+| tracker        | POST   | /tracker                                    | Uses the tracker object sent inside the `body` to add the tracker information.                                                                                                                                  |
+| tracker        | GET    | /tracker/:id/month/:month                   | Uses the user id and month provided in the request parameters to retrieve all the tracking information for the user for a particular month                                                                      |
+| tracker        | GET    | /tracker/:id/year/:year                     | Uses the user id and year provided in the request parameters to retrieve all the tracking information for the user for a particular year                                                                        |
+| tracker        | GET    | /tracker/:id/limit/:limit/order/:order      | Uses the user id, limit and order details provided in the request to retrieve all the tracking information for a user. It would get only the number of items set in the limit. The order can be `asc` or `desc` |
+| tracker        | PUT    | /tracker                                    | Uses the tracker object sent inside the `body` to update the tracking information                                                                                                                               |
+| tracker        | DELETE | /tracker/:id/date/:date/year:year           | Uses the id, date and year passed in the request parameter to delete the particular tracking information                                                                                                        |
+| tracker        | GET    | /tracker/:id/date/:date                     | Uses the user id and date in the request to retrieve the particular tracking information                                                                                                                        |
+| tracker        | GET    | /user                                       | Gets all the users in the system                                                                                                                                                                                |
+| recommendation | POST   | /recommendation                             | Uses the recommondation object in the `body` of the request to create a new recommendation                                                                                                                      |
+| recommendation | GET    | /recommendation/:id                         | Gets all the recommendation available for a user based on the user id passed in the parameter                                                                                                                   |
+| recommendation | GET    | /recommendation/:id/month/:month/year/:year | Gets all the recommendation for a user for a particular month and year                                                                                                                                          |
+| recommendation | PUT    | /recommendation                             | Updates the recommendation based on the recommendation object passed in the `body`                                                                                                                              |
+| recommendation | DELETE | /recommendation/:id/month/:month/year/:year | Deletes the recommendation for a user for that particular month and year                                                                                                                                        |
+| tracker        | GET    | /tracker/:id/yearall/:year                  | Gets all the tracker information for year including the partially submitted records (having an emotion status of 5)                                                                                             |
 
 # Auth Routes
 
