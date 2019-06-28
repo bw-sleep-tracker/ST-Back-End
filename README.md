@@ -8,7 +8,8 @@ Back-end build week project for Sleep Tracker
 
 # **Deployed Backend**
 
-https://be-bw-sleep-tracker.herokuapp.com/
+https://be-bw-sleep-tracker.herokuapp.com/ (Testing)
+https://bw-sleep-tracker-app.herokuapp.com/ (Production)
 
 # **Technologies**
 
@@ -74,6 +75,7 @@ npm run server
 | ----- | ------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | users | POST   | /register | Creates a new `user` profile using the information sent inside the `body` of the request and returns a message along with the new `user` in the `body` of the response.                        |
 | users | POST   | /login    | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Web Token token in the `body` of the response. |
+|users |PUT|/user/:id|The user will be able to update his settings after successful login. JSON web token should be available in the headers (Authorization)|
 
 # Auth Routes
 
